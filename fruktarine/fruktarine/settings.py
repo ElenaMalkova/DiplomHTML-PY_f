@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-x7h0)nn$+1q7ibmg(33r6udmpb^li3))r5-e2)^vx&uah9$mrv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -157,8 +157,9 @@ LOGGING = {
             'formatter': 'verbose',
         },
         'file': {
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': './logs/django.log',
+            'filename': '/Users/kos/Diplom/Final_Fruits/DiplomHTML-PY/fruktarine/logs/django.log',
             'formatter': 'verbose',
         },
     },

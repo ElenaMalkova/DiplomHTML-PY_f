@@ -3,9 +3,18 @@
 {% block title %}Спасибо{% endblock %}
 
 {% block content %}
-    <h1>Спасибо</h1>
-    <p>Ваш заказ успешно оформлен. Мы свяжемся с вами для подтверждения.<br>
-        Номер вашего заказа
-        <strong>{{ order.id }}</strong>.</p>
-<p>Если по каким-либо причинам с вами не связались или у вас срочный вопрос, позвоните нам +7-987-039-19-49</p>
+    <div class="mw-description__content cart_gap-tuner center horizontal-grid">
+        <div class="modal-content__top-bar ">
+            <h2 class="modal-window__name">Спасибо!</h2>
+        </div>
+        <p class="about-product__text text-align-left">Ваш заказ успешно оформлен. Мы&nbsp;свяжемся с&nbsp;вами для подтверждения.<br>
+            Номер вашего заказа
+            <strong>{{ order.id }}</strong>.</p>
+        <div class="order-info">
+            <p>Если по каким-либо причинам с&nbsp;вами не&nbsp;связались или у&nbsp;вас срочный вопрос, позвоните нам
+                <br>+7-987-039-19-49</p>
+        </div>
+
+    </div>
+
 {% endblock %}

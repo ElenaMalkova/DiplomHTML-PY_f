@@ -4,7 +4,7 @@
     {% if category %}{{ category.name }}{% else %}Экзотические фрукты в Уфе{% endif %}
 {% endblock %}
 {% block content %}
-    <section class="center header top_gap">
+    <section class="center header">
       <h1>Экзотические фрукты в Уфе</h1>
       <a href="#product-gallery" class="to-catalog"><img src="{% static "img/btn_choose-box.png" %}" alt="Картинка корзины"></a>
     </section>
@@ -116,21 +116,21 @@
       <div class="h-flex">
         <article class="accent-item">
           <div class="accent-item__img">
-            <img src="{% static "img/article_icon plane.svg" %}" alt="Самолет">
+            <img src="{% static "img/order.svg" %}" alt="Заказ">
           </div>
           <h5 class="accent-item__heading">Вы делаете заказ</h5>
           <p class="accent-item__text">Вы оформляете заказ на нашем сайте или по телефону или через WhatsApp/Telegram</p>
         </article>
         <article class="accent-item">
           <div class="accent-item__img">
-            <img src="{% static "img/article_icon pineapple.svg" %}" alt="Самолет">
+            <img src="{% static "img/article_icon plane.svg" %}" alt="Самолет">
           </div>
           <h5 class="accent-item__heading">Мы привозим фрукты в Россию</h5>
           <p class="accent-item__text">Мы осуществляем поставку фруктов раз в неделю</p>
         </article>
         <article class="accent-item">
           <div class="accent-item__img">
-            <img src="{% static "img/article_icon thumb-up.svg" %}" alt="Самолет">
+            <img src="{% static "img/packing.svg" %}" alt="Коробка">
           </div>
           <h5 class="accent-item__heading">Формируем вашу коробку</h5>
           <p class="accent-item__text">Мы тщательно отбираем фрукты, оставляя для вас только самые спелые и красивые
@@ -138,7 +138,7 @@
         </article>
         <article class="accent-item">
           <div class="accent-item__img">
-            <img src="{% static "img/article_icon thumb-up.svg" %}" alt="Самолет">
+            <img src="{% static "img/delivery.svg" %}" alt="Доставка">
           </div>
           <h5 class="accent-item__heading">Доставляем на дом или в офис</h5>
           <p class="accent-item__text">В удобное вам время курьер доставляет фрукты прямо до ваших дверей</p>
@@ -163,7 +163,7 @@
         </article>
         <article class="accent-item delivery">
           <div class="accent-item__img">
-            <img src="{% static "img/article_icon pineapple.svg" %}" alt="Самолет">
+            <img src="{% static "img/payment.svg" %}" alt="Оплата">
           </div>
           <div class="accent-item to-left">
 
@@ -200,5 +200,23 @@
         <img src="{% static "img/Background_bottomn.png" %}" alt="Фрукты">
       </div>
     </section>
+
+<!-- Модальное окно для подробностей о продукте -->
+<div id="product-modal" class="modal" style="display: none;">
+    <div class="modal-content" >
+        <!-- содержимое модального окна будет добавляться здесь -->
+    </div>
+</div>
+
+<!-- Модальное окно для подробностей о продукте -->
+<div id="product-picture" class="modal" style="display: none;">
+    <div class="modal-picture-content" >
+        <!-- содержимое модального окна будет добавляться здесь -->
+    </div>
+</div>
+
+<footer class="footer center">
+    <p class="footer__credits">© Все права защищены. ОГРН 321028000080939  ИНН 027302483046  г. Уфа Пр. Октября 40/1</p>
+</footer>
 
 {% endblock %}

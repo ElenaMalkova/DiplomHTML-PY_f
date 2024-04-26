@@ -29,12 +29,14 @@ menuLinks.forEach(link => {
   });
 });
 
-// Для свайпера
+// // Для свайпера
 // // import Swiper bundle with all modules installed
-// import Swiper from "swi"
+// import Swiper from 'swiper/bundle';
 //
 // // import styles bundle
 // import 'swiper/css/bundle';
+
+
 
 // init Swiper:
 const swiper = new Swiper('#product-swiper', {
@@ -47,7 +49,7 @@ const swiper = new Swiper('#product-swiper', {
   },
 });
 
-fetch("static/db/products.json")
+fetch("static/db/products_web.json")
   .then(response => response.json())
   .then(data => {
     data.products.forEach(product => {
@@ -85,8 +87,8 @@ function createProductCard(product, type) {
   imgBox.classList.add('img-box', 'show-modal');
 
   let img = document.createElement('img');
-  let imgAlt = product['product-name'];
-  img.src = product.img_preview;
+  let imgAlt = product['name'];
+  img.src = product.image;
   img.className = 'product-img';
   img.setAttribute("alt", imgAlt);
   imgBox.appendChild(img);
@@ -101,6 +103,7 @@ function createProductCard(product, type) {
   if (type === 'card-swipe') {
     card.classList.add('to-swipe', 'swiper-slide', 'pointer');
     imgBox.classList.add('swiper_img-box');
+    imgBox.classList.remove('img-box')
     priceBox.classList.add('swiper__product-description');
     card.appendChild(priceBox);
 
@@ -108,14 +111,14 @@ function createProductCard(product, type) {
     card.classList.add('product-item');
     imgBox.classList.add('product-item__image');
     let name = document.createElement('h2');
-    name.textContent = product['product-name'];
+    name.textContent = product['name'];
     name.className = 'product-item__heading';
     let description = document.createElement('p');
     description.textContent = product.description;
     description.className = 'product-item__text';
-    // priceBox.appendChild(price);
+    priceBox.appendChild(price);
     card.appendChild(name);
-    card.appendChild(description);
+    // card.appendChild(description);
     // Append button with SVG
     let button = document.createElement('button');
     button.innerHTML = `<span class="basic-price price-in-button margin__none">${product.price}</span><svg class="btn__cart" width="20" height="20" viewBox="0 0 34 33" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
@@ -124,6 +127,10 @@ function createProductCard(product, type) {
       '        <path d="M32.6249 29.9578C32.6249 31.6412 31.2602 33.006 29.5767 33.006C27.8933 33.006 26.5286 31.6412 26.5286 29.9578C26.5286 28.2743 27.8933 26.9096 29.5767 26.9096C31.2602 26.9096 32.6249 28.2743 32.6249 29.9578Z" fill="#869FA6" />\n' +
       '      </svg>`; // Replace with your SVG
     button.classList.add('btn-reset', 'btn-basic', 'product-item__btn');
+    button.addEventListener('click', function(){
+      // Здесь ваша ссылка
+      window.location.href = "<form action=\"{% url \"cart:cart_add\" product.id %}\" method=\"post\">";
+    });
     card.appendChild(button);  }
 
 
@@ -149,7 +156,7 @@ function populateModal(modalContent, product) {
 
   // Create and append the product name
   let name = document.createElement('h2');
-  name.textContent = product['product-name'];
+  name.textContent = product['name'];
   name.className = 'modal-window__name';
   modalContent.appendChild(name);
 
@@ -169,21 +176,26 @@ function populateModal(modalContent, product) {
 
   //Add box for image
   let imgBox = document.createElement('div');
-  imgBox.classList.add('img-box', 'modal-image');
+  imgBox.classList.add('img-box', 'modal-image', 'pointer');
   let img = document.createElement("img");
-  img.src = product.img_preview;
+  img.src = product.image;
   img.className = "product-img";
-  img.alt = product['product-name'];
+  img.alt = product['name'];
   imgBox.appendChild(img);
+
+  // Прослушка клика на картинку
+  img.addEventListener('click', function() {
+    displayPictureModal(product.image);
+  });
 
   //Add box for description
   let textDescription = document.createElement("div");
   textDescription.classList.add('mw-description__text-box')
 
   //Add содержимое лукошка
-  let cartContence = document.createElement("p");
-  cartContence.textContent = product.contents;
-  cartContence.classList.add('fruits')
+  let cartDescription = document.createElement("p");
+  cartDescription.textContent = product.description;
+  cartDescription.classList.add('fruits')
 
   // Create and append the price
   let price = document.createElement('p');
@@ -198,8 +210,12 @@ function populateModal(modalContent, product) {
       '        <path d="M32.6249 29.9578C32.6249 31.6412 31.2602 33.006 29.5767 33.006C27.8933 33.006 26.5286 31.6412 26.5286 29.9578C26.5286 28.2743 27.8933 26.9096 29.5767 26.9096C31.2602 26.9096 32.6249 28.2743 32.6249 29.9578Z" fill="#869FA6" />\n' +
       '      </svg>`; // Replace with your SVG
   button.classList.add('btn-reset', 'btn-basic', 'add-to-cart');
+  button.addEventListener('click', function(){
+    // Здесь ваша ссылка
+    window.location.href = "<form action=\"{% url \"cart:cart_add\" product.id %}\" method=\"post\">";
+  });
 
-  textDescription.appendChild(cartContence);
+  textDescription.appendChild(cartDescription);
   textDescription.appendChild(price);
   textDescription.appendChild(button);
 
@@ -227,11 +243,49 @@ function populateModal(modalContent, product) {
   });
 }
 
-fetch('http://localhost:8080/cart-window.html', {
-  method: 'GET',
-})
-  .then(response => response.text()) // получаем текст ответа
-  .then(html => {
-    document.querySelector('#cart').innerHTML = html; // вставляем HTML
-  })
-  .catch(err => console.log('An error happened: ', err)); // обрабатываем ошибки, если они есть
+// fetch('http://localhost:8080/cart-window.html', {
+//   method: 'GET',
+// })
+//   .then(response => response.text()) // получаем текст ответа
+//   .then(html => {
+//     document.querySelector('#cart').innerHTML = html; // вставляем HTML
+//   })
+//   .catch(err => console.log('An error happened: ', err)); // обрабатываем ошибки, если они есть
+
+
+// Функция показа большой картинки
+function displayPictureModal(imageSrc) {
+  // get modal
+  let pictureModal = document.getElementById('product-picture');
+
+  // get modal-picture-content
+  let pictureContent = pictureModal.getElementsByClassName('modal-picture-content')[0];
+
+  // clear current content
+  pictureContent.innerHTML = '';
+
+  // create new image element
+  let img = document.createElement('img');
+  img.src = imageSrc;
+  img.className = "fullscreen-img";
+
+  // append the image to pictureContent
+  pictureContent.appendChild(img);
+
+  // display the modal
+  pictureModal.style.display = "block";
+
+  // Close modal on 'esc' key press
+  document.addEventListener('keydown', function (event) {
+    if (event.key === "Escape") {
+      pictureModal.style.display = "none";
+    }
+  });
+
+  // Для закрытия модального окна при клике на его фон
+  pictureModal.addEventListener('click', function (event) {
+    if (event.target === pictureModal) {
+      pictureModal.style.display = "none";
+    }
+  });
+}

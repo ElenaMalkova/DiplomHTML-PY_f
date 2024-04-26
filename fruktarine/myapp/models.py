@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.urls import reverse
+from django.templatetags.static import static
 
 
 class Category(models.Model):
@@ -35,6 +36,7 @@ class Product(models.Model):
     """В классе Meta модели Product мы используем параметр мета index_together, чтобы задать индекс для полей id и 
     slug. Мы определим этот индекс, поскольку мы планируем запросить продукты с помощью id и slug. Оба поля 
     индексируются вместе для улучшения представлений для запросов, использующих эти два поля."""
+
     class Meta:
         ordering = ('name',)
         index_together = (('id', 'slug'),)
